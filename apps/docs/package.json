@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "typecheck": "tsc --noEmit -p tsconfig.json"
+    "typecheck": "astro sync && tsc --noEmit -p tsconfig.json"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",

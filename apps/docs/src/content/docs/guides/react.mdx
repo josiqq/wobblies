@@ -59,7 +59,7 @@ Because output is deterministic, the server and the client always render identic
 
 ## Accessibility
 
-By default the root `<svg>` has `role="img"` and `aria-label={title ?? name}`.
+By default the root `<svg>` has `role="img"` and `aria-label={title ?? name}`; an empty name falls back to `"Avatar"`.
 
 ```tsx
 // Descriptive label
@@ -93,7 +93,7 @@ The animations (breathing, blinking, looking around) are disabled under `prefers
   name="ana"
   background="squircle"
   palette={{ bg: "#fde68a" }}
-  traits={{ shape: 0.9, eyeGap: 0.7 }}
+  traits={{ shape: "cloud", eyeGap: 0.7 }}
 />
 ```
 

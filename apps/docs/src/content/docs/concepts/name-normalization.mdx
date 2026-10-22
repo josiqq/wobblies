@@ -19,10 +19,22 @@ Before hashing, every name goes through four steps, in this order:
 | `@ana` | `ana` | yes |
 | `@@Ana` | `ana` | yes |
 | `ANA` | `ana` | yes |
-| `José` (NFC, one code point `é`) | `josé` | yes, same as the NFD form |
-| `José` (NFD, `e` + combining accent) | `josé` | yes, same as the NFC form |
+| `"Jos\u00e9"` (NFC, one code point `é`) | `josé` | no; same avatar as the NFD form |
+| `"Jose\u0301"` (NFD, `e` + U+0301 combining acute) | `josé` | no; same avatar as the NFC form |
 | `ana smith` | `ana smith` | no, inner whitespace is kept |
 | `a@na` | `a@na` | no, only leading `@` is stripped |
 | *(empty)* | *(empty)* | no, the empty-name avatar |
+
+The two spellings of `José` are different strings that look identical. Written with escapes so the decomposed form survives copy and paste:
+
+```ts
+import { createAvatar } from "@wobblies/core";
+
+const nfc = "Jos\u00e9"; // é as one code point (U+00E9)
+const nfd = "Jose\u0301"; // e + U+0301 COMBINING ACUTE ACCENT
+
+nfc === nfd; // false
+createAvatar(nfc).svg === createAvatar(nfd).svg; // true
+```
 
 Nothing else is changed: inner whitespace, punctuation and accents are kept, so `ana`, `ána` and `ana2` are different people with different avatars.

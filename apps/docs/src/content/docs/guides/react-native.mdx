@@ -59,7 +59,6 @@ export function UserList() {
   return (
     <FlashList
       data={users}
-      estimatedItemSize={56}
       keyExtractor={(name) => name}
       renderItem={({ item }) => <Wobbly name={item} size={40} />}
     />

@@ -43,13 +43,13 @@ createServer((req, res) => {
   const { svg } = createAvatar(name, { size: 128 });
   res.writeHead(200, {
     "content-type": "image/svg+xml",
-    "cache-control": "public, max-age=31536000, immutable",
+    "cache-control": "public, max-age=86400",
   });
   res.end(svg);
 }).listen(3000);
 ```
 
-The output for a given name and options never changes within a major version, so long cache lifetimes are safe.
+The output for a given name and options never changes within a major version. During 0.x, a minor release may change it (flagged **Visual change:** in the changelog), so until `1.0.0` keep `max-age` short, as above, or put the package version in the URL or cache key (for example `/avatar/0.1.0/ana.svg`) if you want `max-age=31536000, immutable`.
 
 ## Open Graph images and emails
 

@@ -17,7 +17,7 @@
 
 ## Why
 
-- **Deterministic.** A name maps to one avatar, forever. Output is locked by stability fixtures, and changing it requires a major release.
+- **Deterministic.** A name maps to one avatar. Output is locked by stability fixtures; during 0.x a visual change ships as a minor release flagged "Visual change", and from 1.0.0 it requires a major release.
 - **Zero dependencies.** `@wobblies/core` has no runtime dependencies, never touches the DOM, and stays under 6 kB min+gzip.
 - **Works everywhere.** Node, browsers, workers, edge runtimes, React (including SSR and Server Components) and React Native.
 - **Robust.** `undefined`/`null` names, untrusted strings and invalid sizes never throw, and user input is always escaped in the SVG output.
@@ -55,8 +55,12 @@ export function UserAvatar() {
 ### React Native
 
 ```sh
+# Expo
 npx expo install react-native-svg
 npm install @wobblies/react-native
+
+# Bare React Native
+npm install @wobblies/react-native react-native-svg && cd ios && pod install
 ```
 
 ```tsx

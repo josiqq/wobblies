@@ -17,7 +17,7 @@ Requires `react >=18`.
 ```tsx
 import { Wobbly } from "@wobblies/react";
 
-export function UserAvatar({ user }) {
+export function UserAvatar({ user }: { user: { name: string } }) {
   return <Wobbly name={user.name} mood="happy" size={48} />;
 }
 ```
@@ -48,7 +48,7 @@ import "@wobblies/core/animations.css";
 
 ## Next.js and React Server Components
 
-`Wobbly` uses no hooks that require a client boundary beyond `useMemo`, no browser APIs and no effects, so it renders on the server. If your setup requires it, import it from a file marked `"use client"`.
+`Wobbly` works in React Server Components, in the Next.js App Router and in any SSR setup, with no `"use client"` directive. It only uses `useMemo` and `forwardRef`, with no effects and no browser APIs.
 
 ## Documentation
 

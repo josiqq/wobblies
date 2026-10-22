@@ -63,9 +63,10 @@ Pick the affected packages and a bump type, and write a one-line summary. The th
 
 ## The stability rule
 
-The core promise of Wobblies is that the same input gives the same avatar. That is enforced by `packages/core/test/fixtures/stability.json` and the SVG snapshots in `packages/core/test/__snapshots__/`.
+The core promise of Wobblies is that the same input gives the same avatar. That is enforced by `packages/core/test/fixtures/stability.json` (hashes for 200 names × 4 moods × 4 backgrounds under `cases`, plus an option matrix covering `animated`, `size`, `title`, `traits` and `palette` under `options`) and the SVG snapshots in `packages/core/test/__snapshots__/`.
 - Do not change `stability.json` or the SVG snapshots unless you mean to change what existing names look like.
-- If you do, the change requires a **`major`** changeset.
+- If you do, the change needs a changeset that says so. During 0.x, use a **`minor`** changeset whose summary starts with `**Visual change:**`. From `1.0.0` on, a visual change requires a **`major`** changeset.
+- CI does not check the changeset type; reviewers enforce this rule.
 - Regenerate the fixtures only on purpose, with `pnpm --filter @wobblies/core stability:update`, and review the diff carefully.
 
 ## API reports

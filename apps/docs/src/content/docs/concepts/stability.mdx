@@ -5,8 +5,8 @@ description: What is guaranteed to stay the same, what counts as a breaking chan
 
 The same name always produces the same avatar. That is the point of the library, so it is a contract:
 
-1. **Visual stability:** for a given normalized name and options, the SVG output is stable within a major version. Any change to it is a breaking change.
-2. **Guard:** snapshot tests over a fixed corpus of ~200 names (ASCII, accented, emoji, CJK, whitespace-only, empty) × all moods × all backgrounds. A changed snapshot requires a major changeset; this rule is documented in `CONTRIBUTING.md` and the PR template.
+1. **Visual stability:** for a given normalized name and options, the SVG output is stable within a major version. Any change to it is a breaking change. During 0.x, a visual change ships in a minor release whose changelog entry starts with **Visual change:**; from `1.0.0` it requires a major release.
+2. **Guard:** snapshot tests over a fixed corpus of ~200 names (ASCII, accented, emoji, CJK, whitespace-only, empty) × all moods × all backgrounds. A changed snapshot requires a `minor` changeset starting with `**Visual change:**` during 0.x, and a `major` changeset from `1.0.0`; this rule is documented in `CONTRIBUTING.md` and the PR template and enforced in review.
 3. **API stability:** API Extractor reports (`packages/*/etc/*.api.md`) are committed; CI fails if a report is out of date, so every public API change is visible in review.
 4. **Pre-1.0:** releases start at `0.1.0`. Breaking changes are allowed in minor bumps during 0.x; the visual and API contracts freeze at `1.0.0`.
 
@@ -19,6 +19,6 @@ Not breaking: bug fixes that do not change output, new optional options, new exp
 
 ## How fixtures enforce it
 
-The core test suite renders the corpus and compares every SVG to a committed snapshot. If a code change alters any byte, the test fails. The only way through is to update the snapshot together with a major changeset, which forces the change to be visible and deliberate.
+The core test suite renders the corpus (and a matrix of options such as `animated`, `size`, `title`, `traits` and `palette`) and compares every SVG to a committed hash or snapshot. If a code change alters any byte, the test fails. The only way through is to regenerate the fixtures, so the change shows up in the diff; review then requires the matching changeset (`minor` with **Visual change:** during 0.x, `major` from `1.0.0`). CI does not check the changeset type.
 
-Output is also the same across runtimes and platforms: `@wobblies/react` and `@wobblies/react-native` render the same node tree that `createAvatar` produces.
+`createAvatar` returns the same node tree and SVG string for the same inputs; this is verified on Node in CI. `@wobblies/react` and `@wobblies/react-native` render that same node tree.

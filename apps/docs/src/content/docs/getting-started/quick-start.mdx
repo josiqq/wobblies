@@ -12,9 +12,10 @@ import { Demo } from "../../../components/Demo";
     import { createAvatar, toDataUri } from "@wobblies/core";
 
     const { svg } = createAvatar("Ana");
-    document.querySelector("#avatar").innerHTML = svg;
+    document.querySelector("#avatar")!.innerHTML = svg;
 
     // Or use it as an image source:
+    const img = document.createElement("img");
     img.src = toDataUri(svg);
     ```
   </TabItem>

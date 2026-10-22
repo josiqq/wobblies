@@ -14,10 +14,10 @@ Because every trait is hashed independently, adding a new trait never reshuffles
 ```ts
 import { createAvatar } from "@wobblies/core";
 
-createAvatar("ana", { traits: { shape: 0.95 } }); // always a sun, same colors
+createAvatar("ana", { traits: { shape: "sun" } }); // always a sun, same colors
 ```
 
-Override values are numbers in [0, 1): non-finite values are ignored and the rest are clamped.
+Numeric trait overrides (`hue`, `tone`, `eyeGap`, …) are numbers in [0, 1): non-finite values are ignored and the rest are clamped. `shape` takes a shape name (`"round"`, `"organic"`, `"boxy"`, `"nub"`, `"cloud"` or `"sun"`).
 
 ## Shapes
 
@@ -77,5 +77,5 @@ Every avatar is a background, a body and a pair of eyes, plus optional extras (p
 `createAvatar` returns the SVG string and the same drawing as a tree of `nodes`. `@wobblies/react` and `@wobblies/react-native` turn that tree into elements directly, which is why neither parses XML or uses `dangerouslySetInnerHTML`.
 
 <Aside>
-All of this is covered by the [stability contract](/wobblies/concepts/stability/): a change to any of it changes the SVG and needs a major version.
+All of this is covered by the [stability contract](/wobblies/concepts/stability/): a change to any of it changes the SVG. During 0.x that ships as a minor release flagged **Visual change:**; from `1.0.0` it needs a major version.
 </Aside>

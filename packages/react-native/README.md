@@ -13,6 +13,7 @@ npm install @wobblies/react-native
 
 # Bare React Native
 npm install @wobblies/react-native react-native-svg
+cd ios && pod install
 ```
 
 Requires `react >=18`, `react-native >=0.72` and `react-native-svg >=13`.
@@ -22,7 +23,7 @@ Requires `react >=18`, `react-native >=0.72` and `react-native-svg >=13`.
 ```tsx
 import { Wobbly } from "@wobblies/react-native";
 
-export function UserAvatar({ user }) {
+export function UserAvatar({ user }: { user: { name: string } }) {
   return <Wobbly name={user.name} mood="happy" size={48} />;
 }
 ```
@@ -39,7 +40,7 @@ export function UserAvatar({ user }) {
 | `palette`            | `Partial<{ bg, body, eye }>`                   | derived         | Colour overrides.                                                       |
 | `traits`             | `TraitOverrides`                               | derived         | Overrides for name-derived traits.                                      |
 | `style`              | `StyleProp<ViewStyle>`                         | —               | Style for the root view.                                                |
-| `accessibilityLabel` | `string`                                       | `title ?? name` | Screen-reader label. Overrides `title`.                                 |
+| `accessibilityLabel` | `string`                                       | `title ?? name` | Screen-reader label. Overrides `title`. Empty name → `"Avatar"`.        |
 | `decorative`         | `boolean`                                      | `false`         | Hides the avatar from assistive technology next to a visible name.      |
 | `testID`             | `string`                                       | —               | Test identifier for the root view.                                      |
 

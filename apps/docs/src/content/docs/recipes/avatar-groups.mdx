@@ -20,7 +20,7 @@ export function AvatarGroup({ names, size = 48, max = 4 }: { names: string[]; si
     <div style={{ display: "flex", alignItems: "center" }}>
       {shown.map((name, i) => (
         <Wobbly
-          key={name}
+          key={`${i}-${name}`}
           name={name}
           size={size}
           style={{
@@ -30,7 +30,7 @@ export function AvatarGroup({ names, size = 48, max = 4 }: { names: string[]; si
           }}
         />
       ))}
-      {extra > 0 && <span style={{ marginLeft: 8 }}>+{extra}</span>}
+      {extra > 0 && <span aria-label={`and ${extra} more`} style={{ marginLeft: 8 }}>+{extra}</span>}
     </div>
   );
 }

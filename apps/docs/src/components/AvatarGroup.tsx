@@ -15,7 +15,8 @@ export function AvatarGroup({ names, size = 48, max = 4 }: AvatarGroupProps) {
     <div style={{ display: "flex", alignItems: "center", marginBlock: "1rem" }}>
       {shown.map((name, i) => (
         <Wobbly
-          key={name}
+          // biome-ignore lint/suspicious/noArrayIndexKey: names may repeat; list is static
+          key={`${i}-${name}`}
           name={name}
           size={size}
           style={{
@@ -27,6 +28,8 @@ export function AvatarGroup({ names, size = 48, max = 4 }: AvatarGroupProps) {
       ))}
       {extra > 0 && (
         <span
+          role="img"
+          aria-label={`and ${extra} more`}
           style={{
             marginLeft: -size * 0.3,
             width: size,

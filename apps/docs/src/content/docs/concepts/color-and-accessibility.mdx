@@ -26,14 +26,13 @@ Some hue, lightness and chroma combinations fall outside sRGB. Instead of clippi
 
 ## Guarantees
 
-For palettes derived from a name:
+For palettes derived from a name (without overrides):
 
-- **Eye against body: at least 4.5:1** contrast (WCAG AA for normal text). Eyes start near-black on light bodies and near-white on dark ones, then lightness is adjusted until the ratio holds.
+- **Eye against body: at least 4.5:1** contrast (WCAG AA for normal text), for every mood. Eyes start near-black on light bodies and near-white on dark ones, then lightness is adjusted until the ratio holds.
 - **Body against background: at least 1.25:1**, so the figure never melts into its backdrop.
 - **Body against near-black: at least 1.5:1**, so it stays visible on dark pages when the background is `none`.
-- The `mad` mood tints the body toward red and re-checks the eye contrast at 4.5:1.
 
-These hold for every name; they are not spot checks.
+The two body ratios are enforced when the palette is built, so they hold for every name in the `idle`, `happy` and `sad` moods. The `mad` mood then tints the body toward red and re-checks only the eye contrast (4.5:1), so the body ratios are not re-verified after that tint.
 
 ## What is not guaranteed
 

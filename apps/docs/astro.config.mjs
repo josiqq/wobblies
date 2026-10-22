@@ -42,8 +42,9 @@ export default defineConfig({
       ],
       sidebar: [
         { label: "Getting started", items: [{ autogenerate: { directory: "getting-started" } }] },
-        // Task 9 adds: Guides (guides/), Recipes (recipes/), Concepts (concepts/)
-        // as `autogenerate` groups, in that order, before API reference.
+        { label: "Guides", items: [{ autogenerate: { directory: "guides" } }] },
+        { label: "Recipes", items: [{ autogenerate: { directory: "recipes" } }] },
+        { label: "Concepts", items: [{ autogenerate: { directory: "concepts" } }] },
         { label: "API reference", items: [coreApiSidebar, reactApiSidebar, nativeApiSidebar] },
         // Task 10 adds: { label: "Playground", link: "/playground/" }
       ],

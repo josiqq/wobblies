@@ -1,0 +1,54 @@
+---
+title: Animations
+description: CSS hooks, reduced motion and using ANIMATIONS_CSS without a bundler.
+---
+
+import { Demo } from "../../../components/Demo";
+
+Animation is opt-in. With `animated`, the SVG gets class hooks and nothing else; the motion lives in a stylesheet.
+
+<Demo client:load names={["ana", "bruno", "carla"]} mood="happy" animated />
+
+## Enable it
+
+```tsx
+import "@wobblies/core/animations.css";
+import { Wobbly } from "@wobblies/react";
+
+<Wobbly name="Ana" animated />;
+```
+
+## Without a bundler
+
+`@wobblies/core` also exports the stylesheet as a string:
+
+```ts
+import { ANIMATIONS_CSS, createAvatar } from "@wobblies/core";
+
+const style = document.createElement("style");
+style.textContent = ANIMATIONS_CSS;
+document.head.append(style);
+
+document.querySelector("#avatar")!.innerHTML = createAvatar("Ana", { animated: true }).svg;
+```
+
+## Class hooks
+
+| Class | Element | Default effect |
+| --- | --- | --- |
+| `wobbly-root` | root `<svg>` | Hover speeds up breathing. |
+| `wobbly-breathe` | body group | Slow scale in and out. |
+| `wobbly-eyes` | eyes group | Occasional glance around. |
+| `wobbly-eye` | each eye | Blinking. |
+
+Override them in your own CSS, for example:
+
+```css
+.wobbly-breathe { animation-duration: 6s; }
+```
+
+## Reduced motion
+
+The stylesheet includes a `prefers-reduced-motion: reduce` block that turns every animation off, so users who ask for less motion get a still avatar. If you write your own animation rules, keep that behavior.
+
+The classes only work on the web. `@wobblies/react-native` does not animate.

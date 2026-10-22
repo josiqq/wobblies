@@ -1,0 +1,57 @@
+---
+title: Profile photo fallback
+description: Show the user's photo and fall back to a deterministic avatar when it is missing or broken.
+---
+
+import { PhotoFallback } from "../../../components/PhotoFallback";
+
+Users without a photo, or with a photo that fails to load, still get a consistent face.
+
+## React
+
+```tsx
+import { Wobbly } from "@wobblies/react";
+import { useState } from "react";
+
+export function UserPhoto({ name, src }: { name: string; src?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!src || failed) return <Wobbly name={name} size={72} />;
+  return (
+    <img
+      src={src}
+      alt={name}
+      width={72}
+      height={72}
+      style={{ borderRadius: "50%", objectFit: "cover" }}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+```
+
+Live: the first photo loads from a URL that does not exist, the second has no `src` at all.
+
+<PhotoFallback client:load name="Ana" src="/wobblies/does-not-exist.png" />
+<PhotoFallback client:load name="Bruno" />
+
+## React Native with expo-image
+
+```tsx
+import { Wobbly } from "@wobblies/react-native";
+import { Image } from "expo-image";
+import { useState } from "react";
+
+export function UserPhoto({ name, uri }: { name: string; uri?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!uri || failed) return <Wobbly name={name} size={72} />;
+  return (
+    <Image
+      source={{ uri }}
+      style={{ width: 72, height: 72, borderRadius: 36 }}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+```
+
+If the URL can change, reset `failed` when it does (for example with `key={uri}` on the component).

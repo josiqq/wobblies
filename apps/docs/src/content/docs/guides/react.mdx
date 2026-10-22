@@ -1,0 +1,100 @@
+---
+title: React
+description: Use Wobbly in React, Next.js and React Server Components, with accessibility and animation.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import { Demo } from "../../../components/Demo";
+
+## Install
+
+```sh
+npm install @wobblies/react
+```
+
+`@wobblies/react` depends on `@wobblies/core` and needs `react >=18`.
+
+## Basic use
+
+```tsx
+import { Wobbly } from "@wobblies/react";
+
+export function UserAvatar({ user }: { user: { name: string } }) {
+  return <Wobbly name={user.name} size={48} mood="happy" />;
+}
+```
+
+`size` sets both `width` and `height`; omit it for a fluid SVG that fills its container. `width`, `height`, `viewBox` and `xmlns` are not accepted. Everything else (`className`, `style`, `onClick`, `data-*`) goes to the root `<svg>`.
+
+<Demo client:load names={["ana", "bruno", "carla"]} mood="happy" size={64} />
+
+## Server rendering, Next.js and RSC
+
+`Wobbly` renders real React `<svg>` elements (no `dangerouslySetInnerHTML`), uses no effects and no browser APIs. It works in React Server Components, in the Next.js App Router and in any SSR setup, without a `"use client"` directive.
+
+```tsx
+// app/team/page.tsx — a Server Component
+import { Wobbly } from "@wobblies/react";
+
+export default async function Team() {
+  const members = await getMembers();
+  return (
+    <ul>
+      {members.map((m) => (
+        <li key={m.id}>
+          <Wobbly name={m.name} size={40} />
+          {m.name}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+Because output is deterministic, the server and the client always render identical markup, so there are no hydration mismatches.
+
+<Aside type="tip">
+`name` can be `undefined` or `null` while data loads. It is treated as an empty string and renders the empty-name avatar instead of throwing.
+</Aside>
+
+## Accessibility
+
+By default the root `<svg>` has `role="img"` and `aria-label={title ?? name}`.
+
+```tsx
+// Descriptive label
+<Wobbly name="ana" title="Ana Torres, online" />
+
+// The name is already printed next to the avatar: hide it from assistive technology
+<Wobbly name="ana" decorative />
+```
+
+`decorative` sets `aria-hidden` and omits the title and label. Use it whenever the visible text already says who it is.
+
+## Animations
+
+Set `animated` and import the stylesheet once, for example in your root layout:
+
+```tsx
+import "@wobblies/core/animations.css";
+import { Wobbly } from "@wobblies/react";
+
+<Wobbly name="Ana" animated />;
+```
+
+The animations (breathing, blinking, looking around) are disabled under `prefers-reduced-motion: reduce`. See the [animations recipe](/wobblies/recipes/animations/) for details.
+
+<Demo client:load names={["ana", "bruno"]} animated />
+
+## Overrides
+
+```tsx
+<Wobbly
+  name="ana"
+  background="squircle"
+  palette={{ bg: "#fde68a" }}
+  traits={{ shape: 0.9, eyeGap: 0.7 }}
+/>
+```
+
+See [Theming & dark mode](/wobblies/recipes/theming/) and the [API reference](/wobblies/api/react/).

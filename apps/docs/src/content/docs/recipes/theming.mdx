@@ -1,0 +1,55 @@
+---
+title: Theming & dark mode
+description: Palette overrides, transparent backgrounds and CSS variables for light and dark themes.
+---
+
+import { Demo } from "../../../components/Demo";
+
+## Transparent background
+
+`background: "none"` draws only the body and eyes, so the avatar sits on whatever is behind it.
+
+<Demo client:load names={["ana", "bruno", "carla"]} background="none" />
+
+```tsx
+<Wobbly name="ana" background="none" />
+```
+
+## Palette overrides
+
+`palette` takes any of `bg`, `body` and `eye`. Missing keys stay derived from the name.
+
+```tsx
+<Wobbly name="ana" palette={{ bg: "#1e1b4b" }} />
+```
+
+Overrides skip the contrast guarantees, so check them yourself (see [Color & accessibility](/wobblies/concepts/color-and-accessibility/)).
+
+## Dark mode with CSS variables
+
+Palette values are written into the SVG as plain colors. To follow a theme, pass `var(...)` references and define them in CSS. Inline the SVG, since variables do not cross into an `<img>`.
+
+```tsx
+<Wobbly
+  name="ana"
+  palette={{ bg: "var(--avatar-bg)", body: "var(--avatar-body)", eye: "var(--avatar-eye)" }}
+/>
+```
+
+```css
+:root {
+  --avatar-bg: #f3f0ff;
+  --avatar-body: #a78bfa;
+  --avatar-eye: #1c1033;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --avatar-bg: #241a40;
+    --avatar-body: #8b6cf0;
+    --avatar-eye: #f5f0ff;
+  }
+}
+```
+
+If you only want avatars to blend into a dark surface, `background="none"` is usually enough.

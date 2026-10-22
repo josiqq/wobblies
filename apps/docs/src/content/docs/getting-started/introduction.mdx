@@ -1,0 +1,26 @@
+---
+title: Introduction
+description: What Wobblies is, when to use it and which package to install.
+---
+
+Wobblies generates friendly, deterministic default avatars as SVG. Give it a name and it returns a small character with a body shape, colors and a face derived from that name. The same name always produces the same avatar, on every platform.
+
+## When to use it
+
+- Users who have not uploaded a profile photo yet.
+- Placeholder users in mockups, demos and design systems.
+- Test and seed data that should look lively and stay stable between runs.
+
+## When not to use it
+
+Wobblies avatars are a visual convenience, not an identity mark. Do not use them as a security signal such as "this is really that user": different names can look similar, and anyone can pick any name.
+
+## Packages
+
+| Package | Use it for |
+| --- | --- |
+| [`@wobblies/core`](/wobblies/api/core/) | Framework-free SVG strings, data URIs and a render tree. Runs in Node, browsers, workers and edge runtimes. |
+| [`@wobblies/react`](/wobblies/api/react/) | The `Wobbly` React component. Renders real `<svg>` elements and works with SSR. |
+| [`@wobblies/react-native`](/wobblies/api/react-native/) | The `Wobbly` component for Expo and bare React Native, built on `react-native-svg`. |
+
+Ready to try it? Head to [Installation](/wobblies/getting-started/installation/).

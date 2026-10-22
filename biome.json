@@ -8,6 +8,7 @@
       "!**/temp",
       "!**/.turbo",
       "!**/.astro",
+      "!apps/docs/src/content/docs/api",
       "!apps/expo-example/.expo",
       "!**/stability.json",
       "!**/__snapshots__",

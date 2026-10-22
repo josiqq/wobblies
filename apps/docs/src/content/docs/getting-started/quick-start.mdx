@@ -1,0 +1,54 @@
+---
+title: Quick start
+description: Render your first avatar in a few lines on any platform.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+import { Demo } from "../../../components/Demo";
+
+<Tabs syncKey="platform">
+  <TabItem label="Vanilla JS">
+    ```ts
+    import { createAvatar, toDataUri } from "@wobblies/core";
+
+    const { svg } = createAvatar("Ana");
+    document.querySelector("#avatar").innerHTML = svg;
+
+    // Or use it as an image source:
+    img.src = toDataUri(svg);
+    ```
+  </TabItem>
+  <TabItem label="React">
+    ```tsx
+    import { Wobbly } from "@wobblies/react";
+
+    export const Avatar = () => <Wobbly name="Ana" size={48} />;
+    ```
+  </TabItem>
+  <TabItem label="React Native">
+    ```tsx
+    import { Wobbly } from "@wobblies/react-native";
+
+    export const Avatar = () => <Wobbly name="Ana" size={48} />;
+    ```
+  </TabItem>
+</Tabs>
+
+## Live example
+
+Five names, five avatars. Reload the page and they stay the same.
+
+<Demo client:load />
+
+## Moods and animation
+
+```tsx
+import "@wobblies/core/animations.css";
+import { Wobbly } from "@wobblies/react";
+
+<Wobbly name="Ana" mood="happy" animated size={72} />;
+```
+
+<Demo client:load names={["ana", "bruno"]} mood="happy" animated />
+
+Next, browse the [API reference](/wobblies/api/react/).

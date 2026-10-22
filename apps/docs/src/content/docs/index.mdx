@@ -1,0 +1,32 @@
+---
+title: Wobblies
+description: Friendly, deterministic default avatars for the web and React Native.
+template: splash
+hero:
+  title: Friendly, deterministic default avatars
+  tagline: Give every user a unique, friendly face from nothing but a name. Same name, same avatar, on every platform.
+  actions:
+    - text: Get started
+      link: /wobblies/getting-started/introduction/
+      icon: right-arrow
+    - text: Playground
+      link: /wobblies/playground/
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+import { Gallery } from "../../components/Gallery";
+
+<Gallery client:load />
+
+<CardGrid>
+  <Card title="Deterministic" icon="approve-check">
+    The same name always produces the same avatar, so there is nothing to store and nothing to sync.
+  </Card>
+  <Card title="Any platform" icon="rocket">
+    One tiny, dependency-free core with ready-made components for React and React Native.
+  </Card>
+  <Card title="Accessible colors" icon="star">
+    Colors are derived with readable contrast, and avatars can carry a title or be marked decorative.
+  </Card>
+</CardGrid>

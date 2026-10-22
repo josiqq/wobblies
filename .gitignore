@@ -6,3 +6,4 @@ dist
 coverage
 *.tgz
 temp
+apps/docs/src/content/docs/api

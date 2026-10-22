@@ -88,4 +88,27 @@ describe("Wobbly", () => {
   it("does not throw when name is undefined", () => {
     expect(() => render(<Wobbly name={undefined as unknown as string} />)).not.toThrow();
   });
+
+  it("enforces the decorative contract over user props", () => {
+    const { container } = render(
+      <Wobbly name="ana" decorative role="img" aria-label="x" aria-hidden={false} />,
+    );
+    const svg = container.querySelector("svg");
+    expect(svg?.getAttribute("aria-hidden")).toBe("true");
+    expect(svg?.hasAttribute("role")).toBe(false);
+    expect(svg?.hasAttribute("aria-label")).toBe(false);
+  });
+
+  it("lets user role and aria-label override defaults when not decorative", () => {
+    const { container } = render(<Wobbly name="ana" aria-label="Custom" role="presentation" />);
+    const svg = container.querySelector("svg");
+    expect(svg?.getAttribute("aria-label")).toBe("Custom");
+    expect(svg?.getAttribute("role")).toBe("presentation");
+  });
+
+  it("does not accept width (use size)", () => {
+    // @ts-expect-error width is not a Wobbly prop
+    const el = <Wobbly name="a" width={10} />;
+    expect(el).toBeDefined();
+  });
 });

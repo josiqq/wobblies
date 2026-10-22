@@ -1,7 +1,10 @@
 import { type AvatarOptions, createAvatar, type SvgNode } from "@wobblies/core";
 import { createElement, forwardRef, type ReactNode, type SVGProps, useMemo } from "react";
 
-/** Props for {@link Wobbly}. Extra props are forwarded to the root `<svg>` element. */
+/**
+ * Props for {@link Wobbly}. Extra props are forwarded to the root `<svg>` element.
+ * `width`, `height`, `viewBox` and `xmlns` are not accepted: use `size` for dimensions.
+ */
 export type WobblyProps = Omit<AvatarOptions, "size"> & {
   /** Seed for the avatar. The same name always produces the same avatar. */
   name: string;
@@ -9,7 +12,10 @@ export type WobblyProps = Omit<AvatarOptions, "size"> & {
   size?: number;
   /** Hide the avatar from assistive technology (e.g. next to the person's visible name). */
   decorative?: boolean;
-} & Omit<SVGProps<SVGSVGElement>, keyof AvatarOptions | "name" | "ref" | "children">;
+} & Omit<
+    SVGProps<SVGSVGElement>,
+    keyof AvatarOptions | "name" | "ref" | "children" | "width" | "height" | "viewBox" | "xmlns"
+  >;
 
 function toReactAttrs(attrs: Record<string, string>): Record<string, string> {
   const out: Record<string, string> = {};
@@ -70,15 +76,15 @@ export const Wobbly = forwardRef<SVGSVGElement, WobblyProps>(function Wobbly(
 
   const { class: rootClass, ...rootAttrs } = avatar.rootAttrs;
   const classes = [rootClass, className].filter(Boolean).join(" ");
-  const a11y = decorative
-    ? { "aria-hidden": true as const }
-    : { role: "img", "aria-label": title ?? String(name ?? "") };
+  const { role: _role, "aria-label": _label, ...restNoA11y } = rest;
+  const a11yProps = decorative
+    ? { ...restNoA11y, "aria-hidden": true as const }
+    : { role: "img", "aria-label": title ?? String(name ?? ""), ...rest };
 
   return createElement(
     "svg",
     {
-      ...a11y,
-      ...rest,
+      ...a11yProps,
       ...rootAttrs,
       className: classes || undefined,
       ref,

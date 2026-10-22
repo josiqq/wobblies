@@ -36,7 +36,7 @@ export function UserAvatar({ user }) {
 | `traits`     | `TraitOverrides`                               | derived    | Overrides for name-derived traits.                                          |
 | `decorative` | `boolean`                                      | `false`    | Hides the avatar from assistive technology (`aria-hidden`, no title/label). |
 
-Any other props (`className`, `style`, `onClick`, `data-*`, …) are passed to the root `<svg>`, and a `ref` receives the `SVGSVGElement`.
+`width`, `height`, `viewBox` and `xmlns` are not accepted; use `size`. Any other props (`className`, `style`, `onClick`, `data-*`, …) are passed to the root `<svg>`, and a `ref` receives the `SVGSVGElement`.
 
 ## Animations
 

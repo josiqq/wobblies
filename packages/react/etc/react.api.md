@@ -13,14 +13,14 @@ export const Wobbly: react.ForwardRefExoticComponent<Omit<AvatarOptions, "size">
     name: string;
     size?: number;
     decorative?: boolean;
-} & Omit<SVGProps<SVGSVGElement>, keyof AvatarOptions | "name" | "ref" | "children"> & react.RefAttributes<SVGSVGElement>>;
+} & Omit<SVGProps<SVGSVGElement>, keyof AvatarOptions | "name" | "ref" | "children" | "width" | "height" | "viewBox" | "xmlns"> & react.RefAttributes<SVGSVGElement>>;
 
 // @public
 export type WobblyProps = Omit<AvatarOptions, "size"> & {
     name: string;
     size?: number;
     decorative?: boolean;
-} & Omit<SVGProps<SVGSVGElement>, keyof AvatarOptions | "name" | "ref" | "children">;
+} & Omit<SVGProps<SVGSVGElement>, keyof AvatarOptions | "name" | "ref" | "children" | "width" | "height" | "viewBox" | "xmlns">;
 
 // (No @packageDocumentation comment for this package)
 

@@ -85,6 +85,7 @@ All three packages are versioned together.
 
 - [Documentation](https://josiqq.github.io/wobblies)
 - [Playground](https://josiqq.github.io/wobblies/playground/)
+- Docs for AI assistants: [`llms.txt`](https://josiqq.github.io/wobblies/llms.txt) (index) and [`llms-full.txt`](https://josiqq.github.io/wobblies/llms-full.txt) (everything in one file)
 - [Contributing](./CONTRIBUTING.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 - [Security policy](./SECURITY.md)

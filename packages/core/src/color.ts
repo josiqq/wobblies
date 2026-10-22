@@ -93,9 +93,13 @@ const TONES: Array<[number, { l: number; c: number }]> = [
   [1, { l: 0.36, c: 0.04 }], // dark
 ];
 
+/** Avatar colours as CSS colour strings (hex when derived from the name). */
 export interface Palette {
+  /** Background fill. */
   bg: string;
+  /** Body fill. */
   body: string;
+  /** Eye fill. */
   eye: string;
 }
 

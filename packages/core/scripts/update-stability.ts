@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { createAvatar } from "../src/render";
+import { createAvatar } from "../src/index";
 import {
   BACKGROUND_LIST,
   hashSvg,
@@ -13,7 +13,7 @@ const cases: Record<string, string> = {};
 for (const name of STABILITY_NAMES) {
   for (const mood of MOOD_LIST) {
     for (const bg of BACKGROUND_LIST) {
-      const { svg } = createAvatar(name, { mood, background: bg === "none" ? false : bg });
+      const { svg } = createAvatar(name, { mood, background: bg });
       cases[stabilityKey(name, mood, bg)] = hashSvg(svg);
     }
   }

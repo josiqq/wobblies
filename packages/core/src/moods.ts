@@ -1,7 +1,9 @@
 import { ensureContrast, mixOklch, type OklchPalette } from "./color";
 import type { Layout } from "./layout";
 
+/** Every {@link Mood}, in a fixed order. */
 export const MOODS = ["idle", "happy", "sad", "mad"] as const;
+/** Facial expression of an avatar. */
 export type Mood = (typeof MOODS)[number];
 
 /**

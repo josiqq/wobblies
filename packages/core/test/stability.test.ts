@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { createAvatar } from "../src/render";
+import { type Background, createAvatar } from "../src/index";
 import { hashSvg, type MOOD_LIST, SNAPSHOT_NAMES, STABILITY_NAMES, slug } from "./fixtures/names";
 import fixture from "./fixtures/stability.json";
 
 type Mood = (typeof MOOD_LIST)[number];
 
-/** Wraps the current engine entry point (swapped to the new API in a later task). */
+/** Renders one corpus case through the public API. */
 const render = (name: string, mood: Mood, bg: string): string =>
-  createAvatar(name, { mood, background: bg === "none" ? false : (bg as "circle") }).svg;
+  createAvatar(name, { mood, background: bg as Background }).svg;
 
 /** Keys split on the last two "|" so names stay intact. */
 function splitKey(key: string): [string, Mood, string] {

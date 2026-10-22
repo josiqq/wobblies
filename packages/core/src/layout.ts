@@ -1,7 +1,9 @@
 import type { Superellipse } from "./geometry";
 import type { Traits } from "./hash";
 
+/** Every body {@link Shape}, in a fixed order. */
 export const SHAPES = ["round", "organic", "boxy", "nub", "cloud", "sun"] as const;
+/** Body shape of an avatar. */
 export type Shape = (typeof SHAPES)[number];
 
 // Cumulative thresholds over the "shape" trait: rounder shapes are more common.

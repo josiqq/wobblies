@@ -1,8 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { buildPalette, contrast } from "../src/color";
-import { createTraits } from "../src/hash";
-import { SHAPE_POSITIONS, SHAPES, shapeFor } from "../src/layout";
-import { createAvatar } from "../src/render";
+import { createAvatar, SHAPES } from "../src/index";
+import { createTraits, layout, SHAPE_POSITIONS, shapeFor } from "../src/internal";
 
 describe("engine", () => {
   it("is deterministic and normalises names", () => {
@@ -24,9 +23,7 @@ describe("engine", () => {
   });
 
   it("covers every shape over many names", () => {
-    const seen = new Set(
-      Array.from({ length: 500 }, (_, i) => createAvatar(`user${i}`).layout.shape),
-    );
+    const seen = new Set(Array.from({ length: 500 }, (_, i) => createAvatar(`user${i}`).shape));
     expect(seen.size).toBe(SHAPES.length);
   });
 
@@ -39,13 +36,12 @@ describe("engine", () => {
 
   it("keeps the figure inside the canvas", () => {
     for (let i = 0; i < 300; i++) {
-      const { layout } = createAvatar(`n${i}`);
-      for (const c of layout.extras) {
+      const l = layout(createTraits(`n${i}`));
+      for (const c of l.extras) {
         expect(c.cx - c.r).toBeGreaterThan(-1);
         expect(c.cx + c.r).toBeLessThan(101);
       }
-      for (const e of layout.eyes)
-        expect(Math.abs(e.cx - layout.body.cx)).toBeLessThan(layout.body.rx);
+      for (const e of l.eyes) expect(Math.abs(e.cx - l.body.cx)).toBeLessThan(l.body.rx);
     }
   });
 });

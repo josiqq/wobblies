@@ -46,7 +46,7 @@ export default defineConfig({
         { label: "Recipes", items: [{ autogenerate: { directory: "recipes" } }] },
         { label: "Concepts", items: [{ autogenerate: { directory: "concepts" } }] },
         { label: "API reference", items: [coreApiSidebar, reactApiSidebar, nativeApiSidebar] },
-        // Task 10 adds: { label: "Playground", link: "/playground/" }
+        { label: "Playground", link: "/playground/" },
       ],
     }),
   ],

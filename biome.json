@@ -1,0 +1,24 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.2/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/etc",
+      "!**/temp",
+      "!**/.turbo",
+      "!**/.astro",
+      "!apps/docs/src/content/docs/api",
+      "!apps/expo-example/.expo",
+      "!**/stability.json",
+      "!**/__snapshots__",
+      "!.superpowers",
+      "!assets/gallery.svg",
+      "!docs/superpowers",
+      "!pnpm-lock.yaml"
+    ]
+  },
+  "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2, "lineWidth": 100 },
+  "javascript": { "formatter": { "quoteStyle": "double" } },
+  "linter": { "enabled": true, "rules": { "preset": "recommended" } }
+}

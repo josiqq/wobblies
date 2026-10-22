@@ -1,0 +1,109 @@
+---
+title: Installation
+description: Install Wobblies for vanilla JavaScript, React, React Native and Expo.
+---
+
+import { Tabs, TabItem } from "@astrojs/starlight/components";
+
+Pick the package that matches your platform.
+
+## Core (any JavaScript runtime)
+
+<Tabs syncKey="pkg">
+  <TabItem label="pnpm">
+    ```sh
+    pnpm add @wobblies/core
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npm install @wobblies/core
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```sh
+    yarn add @wobblies/core
+    ```
+  </TabItem>
+</Tabs>
+
+## React
+
+<Tabs syncKey="pkg">
+  <TabItem label="pnpm">
+    ```sh
+    pnpm add @wobblies/react
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npm install @wobblies/react
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```sh
+    yarn add @wobblies/react
+    ```
+  </TabItem>
+</Tabs>
+
+Requires `react >=18`. If you use animations, also import the stylesheet once:
+
+```ts
+import "@wobblies/core/animations.css";
+```
+
+## React Native
+
+<Tabs syncKey="pkg">
+  <TabItem label="pnpm">
+    ```sh
+    pnpm add @wobblies/react-native react-native-svg
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npm install @wobblies/react-native react-native-svg
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```sh
+    yarn add @wobblies/react-native react-native-svg
+    ```
+  </TabItem>
+</Tabs>
+
+## Expo
+
+Let Expo pick the `react-native-svg` version that matches your SDK, then install Wobblies.
+
+<Tabs syncKey="pkg">
+  <TabItem label="pnpm">
+    ```sh
+    npx expo install react-native-svg
+    pnpm add @wobblies/react-native
+    ```
+  </TabItem>
+  <TabItem label="npm">
+    ```sh
+    npx expo install react-native-svg
+    npm install @wobblies/react-native
+    ```
+  </TabItem>
+  <TabItem label="yarn">
+    ```sh
+    npx expo install react-native-svg
+    yarn add @wobblies/react-native
+    ```
+  </TabItem>
+</Tabs>
+
+## Requirements
+
+| Package | Peer requirements |
+| --- | --- |
+| `@wobblies/core` | None. Zero runtime dependencies. |
+| `@wobblies/react` | `react >=18` |
+| `@wobblies/react-native` | `react >=18`, `react-native >=0.72`, `react-native-svg >=13` |
+
+All packages ship ESM, CommonJS and TypeScript types, and require Node 18 or newer.

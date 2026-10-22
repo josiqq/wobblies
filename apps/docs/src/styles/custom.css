@@ -1,0 +1,31 @@
+:root {
+  --sl-color-accent-low: #2a2250;
+  --sl-color-accent: #7c5cff;
+  --sl-color-accent-high: #c9bdff;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #e3dcff;
+  --sl-color-accent: #5b3fd9;
+  --sl-color-accent-high: #3a238f;
+}
+
+.wobbly-demo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-block: 1rem;
+}
+
+.wobbly-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.75rem;
+  margin-block: 1.5rem;
+}
+
+.wobbly-gallery svg {
+  width: 100%;
+  height: auto;
+}

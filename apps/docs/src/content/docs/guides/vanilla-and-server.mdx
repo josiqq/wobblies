@@ -1,0 +1,87 @@
+---
+title: Vanilla & server
+description: Use @wobblies/core without a framework, on a Node server, in emails and from a CDN.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+`@wobblies/core` has no runtime dependencies and never touches the DOM, so it runs in browsers, Node, Deno, Bun and edge runtimes.
+
+```sh
+npm install @wobblies/core
+```
+
+## In the browser
+
+```ts
+import { createAvatar, toDataUri } from "@wobblies/core";
+
+const { svg } = createAvatar("Ana", { size: 64 });
+
+// As an image
+const img = document.createElement("img");
+img.src = toDataUri(svg);
+img.alt = "Ana";
+document.body.append(img);
+
+// Or inline
+document.querySelector("#avatar")!.innerHTML = svg;
+```
+
+Use `<img src={toDataUri(svg)}>` when you do not need CSS animations. Inline the SVG (`innerHTML`) when you do, because CSS cannot reach inside an `<img>`.
+
+## On a server
+
+A Node route that returns the avatar as an image:
+
+```ts
+import { createServer } from "node:http";
+import { createAvatar } from "@wobblies/core";
+
+createServer((req, res) => {
+  const name = new URL(req.url ?? "/", "http://localhost").searchParams.get("name") ?? "";
+  const { svg } = createAvatar(name, { size: 128 });
+  res.writeHead(200, {
+    "content-type": "image/svg+xml",
+    "cache-control": "public, max-age=86400",
+  });
+  res.end(svg);
+}).listen(3000);
+```
+
+The output for a given name and options never changes within a major version. During 0.x, a minor release may change it (flagged **Visual change:** in the changelog), so until `1.0.0` keep `max-age` short, as above, or put the package version in the URL or cache key (for example `/avatar/0.1.0/ana.svg`) if you want `max-age=31536000, immutable`.
+
+## Open Graph images and emails
+
+Many consumers reject SVG: social networks need a raster `og:image`, and some email clients block SVG images. Generate a PNG instead. In the browser, see [Exporting PNG](/wobblies/recipes/exporting-png/). On a server, rasterize the SVG with the library of your choice (for example `@resvg/resvg-js` or `sharp`) and serve the resulting PNG.
+
+<Aside type="caution">
+Do not rely on inline SVG or `data:` URIs in HTML email. Link to a hosted PNG.
+</Aside>
+
+## Plain HTML from a CDN
+
+```html
+<div id="avatar"></div>
+<script type="module">
+  import { createAvatar } from "https://esm.sh/@wobblies/core";
+
+  document.querySelector("#avatar").innerHTML = createAvatar("Ana", { size: 64 }).svg;
+</script>
+```
+
+To animate, inject `ANIMATIONS_CSS` once and pass `animated: true`:
+
+```html
+<script type="module">
+  import { ANIMATIONS_CSS, createAvatar } from "https://esm.sh/@wobblies/core";
+
+  const style = document.createElement("style");
+  style.textContent = ANIMATIONS_CSS;
+  document.head.append(style);
+
+  document.querySelector("#avatar").innerHTML = createAvatar("Ana", { animated: true }).svg;
+</script>
+```
+
+See the [API reference](/wobblies/api/core/).

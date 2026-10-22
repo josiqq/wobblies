@@ -1,0 +1,98 @@
+{
+  "name": "@wobblies/core",
+  "version": "0.0.0",
+  "description": "Friendly, deterministic default avatars as SVG — zero dependencies, works everywhere.",
+  "keywords": [
+    "avatar",
+    "default-avatar",
+    "identicon",
+    "svg",
+    "generator",
+    "deterministic",
+    "react",
+    "react-native"
+  ],
+  "license": "MIT",
+  "author": "josiqq",
+  "homepage": "https://josiqq.github.io/wobblies",
+  "bugs": "https://github.com/josiqq/wobblies/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josiqq/wobblies.git",
+    "directory": "packages/core"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "internal": [
+        "./dist/internal.d.ts"
+      ]
+    }
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./internal": {
+      "import": {
+        "types": "./dist/internal.d.ts",
+        "default": "./dist/internal.js"
+      },
+      "require": {
+        "types": "./dist/internal.d.cts",
+        "default": "./dist/internal.cjs"
+      }
+    },
+    "./animations.css": "./dist/animations.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "size-limit": [
+    {
+      "path": "dist/index.js",
+      "limit": "6 kB"
+    }
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p test/tsconfig.json",
+    "stability:update": "tsx scripts/update-stability.ts",
+    "size": "size-limit",
+    "check:exports": "publint && attw --pack . --exclude-entrypoints ./animations.css",
+    "api:check": "api-extractor run",
+    "api:update": "api-extractor run --local"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@microsoft/api-extractor": "^7.59.4",
+    "@size-limit/preset-small-lib": "^14.2.0",
+    "@types/node": "^24.0.0",
+    "publint": "^0.3.25",
+    "size-limit": "^14.2.0",
+    "tsup": "^9.0.0",
+    "vitest": "^5.0.0"
+  }
+}

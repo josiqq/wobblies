@@ -1,0 +1,39 @@
+---
+title: Avatar groups
+description: Overlapping avatar stacks with a ring that matches each avatar.
+---
+
+import { AvatarGroup } from "../../../components/AvatarGroup";
+
+`createAvatar` returns the resolved `palette`, so a ring can use `palette.bg` and blend with each avatar instead of using a fixed color.
+
+<AvatarGroup client:load names={["ana", "bruno", "carla", "diego", "elena", "fede"]} />
+
+```tsx
+import { createAvatar } from "@wobblies/core";
+import { Wobbly } from "@wobblies/react";
+
+export function AvatarGroup({ names, size = 48, max = 4 }: { names: string[]; size?: number; max?: number }) {
+  const shown = names.slice(0, max);
+  const extra = names.length - shown.length;
+  return (
+    <div style={{ display: "flex", alignItems: "center" }}>
+      {shown.map((name, i) => (
+        <Wobbly
+          key={`${i}-${name}`}
+          name={name}
+          size={size}
+          style={{
+            marginLeft: i === 0 ? 0 : -size * 0.3,
+            borderRadius: "50%",
+            boxShadow: `0 0 0 3px ${createAvatar(name).palette.bg}`,
+          }}
+        />
+      ))}
+      {extra > 0 && <span aria-label={`and ${extra} more`} style={{ marginLeft: 8 }}>+{extra}</span>}
+    </div>
+  );
+}
+```
+
+On React Native, use negative `marginLeft` the same way and `borderWidth`/`borderColor` on a wrapping `View` with `borderRadius: size / 2`.

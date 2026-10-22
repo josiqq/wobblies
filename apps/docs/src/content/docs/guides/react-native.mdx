@@ -1,0 +1,79 @@
+---
+title: React Native & Expo
+description: Set up react-native-svg, render Wobbly in virtualized lists and run on Expo Web.
+---
+
+import { Aside, Tabs, TabItem } from "@astrojs/starlight/components";
+
+## Install
+
+<Tabs syncKey="rn">
+  <TabItem label="Expo">
+    ```sh
+    npx expo install react-native-svg
+    npm install @wobblies/react-native
+    ```
+  </TabItem>
+  <TabItem label="Bare React Native">
+    ```sh
+    npm install @wobblies/react-native react-native-svg
+    cd ios && pod install
+    ```
+  </TabItem>
+</Tabs>
+
+Requires `react >=18`, `react-native >=0.72` and `react-native-svg >=13`.
+
+## Basic use
+
+```tsx
+import { Wobbly } from "@wobblies/react-native";
+
+export function UserAvatar({ name }: { name: string }) {
+  return <Wobbly name={name} size={48} mood="happy" />;
+}
+```
+
+`size` defaults to `40`; invalid values (`0`, negative, `NaN`) also fall back to `40`. The component is not animated: the CSS animation hooks are web-only.
+
+## Accessibility
+
+```tsx
+<Wobbly name="ana" accessibilityLabel="Ana Torres" />
+<Wobbly name="ana" decorative />
+```
+
+`decorative` hides the avatar from screen readers. `testID` is forwarded for tests.
+
+## Lists
+
+`Wobbly` is wrapped in `React.memo` and maps the avatar's render tree directly to `react-native-svg` elements. There is no SVG string and no XML parsing at render time, so rows that scroll into view only pay for creating a handful of elements.
+
+```tsx
+import { FlashList } from "@shopify/flash-list";
+import { Wobbly } from "@wobblies/react-native";
+
+const users = Array.from({ length: 200 }, (_, i) => `user-${i}`);
+
+export function UserList() {
+  return (
+    <FlashList
+      data={users}
+      keyExtractor={(name) => name}
+      renderItem={({ item }) => <Wobbly name={item} size={40} />}
+    />
+  );
+}
+```
+
+Keep `name`, `palette` and `traits` referentially stable (for example, define `palette` outside the component) so `memo` can skip re-renders.
+
+<Aside>
+The repository ships an example app, `apps/expo-example`, with a FlashList of 200 avatars and a mood and background switcher.
+</Aside>
+
+## Expo Web
+
+`react-native-svg` supports the web through `react-native-web`, so the same component runs in Expo Web with no changes. If you only target the web, prefer [`@wobblies/react`](/wobblies/guides/react/): it supports CSS animations and server rendering.
+
+See the [API reference](/wobblies/api/react-native/).

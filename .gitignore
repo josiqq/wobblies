@@ -1,0 +1,10 @@
+node_modules
+dist
+.turbo
+.astro
+.expo
+coverage
+*.tgz
+temp
+apps/docs/src/content/docs/api
+.superpowers

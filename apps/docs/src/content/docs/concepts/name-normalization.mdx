@@ -1,0 +1,40 @@
+---
+title: Name normalization
+description: How names are cleaned before they are hashed, so equivalent names give the same avatar.
+---
+
+Before hashing, every name goes through four steps, in this order:
+
+1. **NFC:** Unicode normalization form C, so composed and decomposed characters are equal.
+2. **Trim:** leading and trailing whitespace is removed.
+3. **Strip leading `@`:** any number of `@` characters at the start are removed, so handles match plain names.
+4. **Lowercase.**
+
+`null`, `undefined` and numbers are converted with `String(name ?? "")` first, so a missing name renders the empty-name avatar instead of throwing.
+
+| Input | Normalized | Same avatar as `ana`? |
+| --- | --- | --- |
+| `Ana` | `ana` | yes |
+| `  ana  ` | `ana` | yes |
+| `@ana` | `ana` | yes |
+| `@@Ana` | `ana` | yes |
+| `ANA` | `ana` | yes |
+| `"Jos\u00e9"` (NFC, one code point `é`) | `josé` | no; same avatar as the NFD form |
+| `"Jose\u0301"` (NFD, `e` + U+0301 combining acute) | `josé` | no; same avatar as the NFC form |
+| `ana smith` | `ana smith` | no, inner whitespace is kept |
+| `a@na` | `a@na` | no, only leading `@` is stripped |
+| *(empty)* | *(empty)* | no, the empty-name avatar |
+
+The two spellings of `José` are different strings that look identical. Written with escapes so the decomposed form survives copy and paste:
+
+```ts
+import { createAvatar } from "@wobblies/core";
+
+const nfc = "Jos\u00e9"; // é as one code point (U+00E9)
+const nfd = "Jose\u0301"; // e + U+0301 COMBINING ACUTE ACCENT
+
+nfc === nfd; // false
+createAvatar(nfc).svg === createAvatar(nfd).svg; // true
+```
+
+Nothing else is changed: inner whitespace, punctuation and accents are kept, so `ana`, `ána` and `ana2` are different people with different avatars.

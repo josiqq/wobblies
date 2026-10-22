@@ -1,0 +1,39 @@
+---
+title: Color & accessibility
+description: OKLCH palettes, tone families, gamut mapping and the contrast guarantees behind readable avatars.
+---
+
+## OKLCH
+
+Colors are built in OKLCH (lightness, chroma, hue), a perceptual space where equal steps look equal. The hue comes from the name; lightness and chroma come from a *tone family* picked by another per-name trait. Results are converted to hex sRGB at the end.
+
+## Tone families
+
+The `tone` trait selects one of six families of body colors:
+
+| Tone range | Family | Lightness | Chroma |
+| --- | --- | --- | --- |
+| 0 to 0.18 | pastel | 0.88 | 0.07 |
+| 0.18 to 0.32 | chalk | 0.92 | 0.03 |
+| 0.32 to 0.60 | fresh | 0.76 | 0.13 |
+| 0.60 to 0.78 | vivid | 0.65 | 0.16 |
+| 0.78 to 0.92 | neon-ish | 0.85 | 0.15 |
+| 0.92 to 1 | dark | 0.36 | 0.04 |
+
+## Gamut mapping
+
+Some hue, lightness and chroma combinations fall outside sRGB. Instead of clipping channels (which shifts the hue), the converter reduces chroma by binary search until the color fits, keeping hue and lightness.
+
+## Guarantees
+
+For palettes derived from a name (without overrides):
+
+- **Eye against body: at least 4.5:1** contrast (WCAG AA for normal text), for every mood. Eyes start near-black on light bodies and near-white on dark ones, then lightness is adjusted until the ratio holds.
+- **Body against background: at least 1.25:1**, so the figure never melts into its backdrop.
+- **Body against near-black: at least 1.5:1**, so it stays visible on dark pages when the background is `none`.
+
+The two body ratios are enforced when the palette is built, so they hold for every name in the `idle`, `happy` and `sad` moods. The `mad` mood then tints the body toward red and re-checks only the eye contrast (4.5:1), so the body ratios are not re-verified after that tint.
+
+## What is not guaranteed
+
+Custom `palette` values bypass the checks. Avatars are also identity images, not text, so the body/background ratio is intentionally lower than text contrast. For screen readers, give the avatar a [`title`](/wobblies/guides/react/#accessibility) or mark it `decorative` when a name is already visible nearby.

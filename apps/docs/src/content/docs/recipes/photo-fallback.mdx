@@ -1,0 +1,71 @@
+---
+title: Profile photo fallback
+description: Show the user's photo and fall back to a deterministic avatar when it is missing or broken.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+import { PhotoFallback } from "../../../components/PhotoFallback";
+
+Users without a photo, or with a photo that fails to load, still get a consistent face.
+
+## React
+
+```tsx
+import { Wobbly } from "@wobblies/react";
+import { useEffect, useRef, useState } from "react";
+
+export function UserPhoto({ name, src }: { name: string; src?: string }) {
+  const [failed, setFailed] = useState(false);
+  const ref = useRef<HTMLImageElement>(null);
+
+  useEffect(() => setFailed(false), [src]);
+  useEffect(() => {
+    const img = ref.current;
+    if (img?.complete && img.naturalWidth === 0) setFailed(true);
+  }, [src]);
+
+  if (!src || failed) return <Wobbly name={name} size={72} />;
+  return (
+    <img
+      ref={ref}
+      src={src}
+      alt={name}
+      width={72}
+      height={72}
+      style={{ borderRadius: "50%", objectFit: "cover" }}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+```
+
+<Aside type="caution">
+With SSR the `<img>` can fail before React hydrates, so `onError` never fires; the `complete` and `naturalWidth` check in the effect catches that case.
+</Aside>
+
+Live: the first photo loads from a URL that does not exist, the second has no `src` at all.
+
+<PhotoFallback client:load name="Ana" src="/wobblies/does-not-exist.png" />
+<PhotoFallback client:load name="Bruno" />
+
+## React Native with expo-image
+
+```tsx
+import { Wobbly } from "@wobblies/react-native";
+import { Image } from "expo-image";
+import { useState } from "react";
+
+export function UserPhoto({ name, uri }: { name: string; uri?: string }) {
+  const [failed, setFailed] = useState(false);
+  if (!uri || failed) return <Wobbly name={name} size={72} />;
+  return (
+    <Image
+      source={{ uri }}
+      style={{ width: 72, height: 72, borderRadius: 36 }}
+      onError={() => setFailed(true)}
+    />
+  );
+}
+```
+
+If the URL can change, reset `failed` when it does (for example with `key={uri}` on the component).

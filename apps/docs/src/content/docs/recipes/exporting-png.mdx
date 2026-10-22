@@ -1,0 +1,70 @@
+---
+title: Exporting PNG
+description: Rasterize avatars to PNG in the browser with a canvas, and build avatar sheets.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+SVG is not accepted everywhere (social cards, some email clients, app stores). A canvas can turn the SVG string into a PNG in the browser, with no dependencies.
+
+```ts
+import { createAvatar, toDataUri } from "@wobblies/core";
+
+function loadImage(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => reject(new Error("Could not rasterize the avatar"));
+    img.src = src;
+  });
+}
+
+export async function avatarToPng(name: string, px: number): Promise<Blob> {
+  const { svg } = createAvatar(name, { size: px, animated: false });
+  const img = await loadImage(toDataUri(svg));
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = px;
+  canvas.getContext("2d")?.drawImage(img, 0, 0, px, px);
+  return new Promise((resolve, reject) =>
+    canvas.toBlob((b) => (b ? resolve(b) : reject(new Error("Could not encode the PNG"))), "image/png"),
+  );
+}
+```
+
+Save it with an object URL:
+
+```ts
+const blob = await avatarToPng("Ana", 512);
+const a = document.createElement("a");
+a.href = URL.createObjectURL(blob);
+a.download = "ana.png";
+a.click();
+```
+
+## The full helper module
+
+The docs site ships these helpers (and the avatar sheet export used by the playground) in `apps/docs/src/lib/export.ts`:
+
+| Export | Purpose |
+| --- | --- |
+| `avatarToPng(name, px, options?)` | One avatar as a `px` x `px` PNG `Blob`. |
+| `gridToSvg(grid, options?)` | A sheet of avatars as one SVG string. |
+| `gridToPng(grid, options?)` | The same sheet rasterized to PNG. |
+| `download(data, filename)` | Saves a `Blob` or an SVG string. |
+| `slug(name)` | File-name-safe stem for a name. |
+
+`GridOptions` is `{ names: string[]; cols: number; cell: number; gap: number; background?: string }`, and `options` is the same `AvatarOptions` object `createAvatar` takes.
+
+```ts
+import { download, gridToPng, slug } from "./lib/export";
+
+const names = ["ana", "bruno", "carla", "diego"];
+const png = await gridToPng({ names, cols: 2, cell: 128, gap: 16, background: "#ffffff" });
+download(png, `${slug(names[0])}-sheet.png`);
+```
+
+<Aside type="tip">
+Pass `background: "none"` in `options` for avatars with a transparent backdrop, and leave `GridOptions.background` unset to keep the whole sheet transparent.
+</Aside>
+
+Always pass `animated: false` (the helpers do) so the PNG does not depend on CSS the canvas never loads. On a server, rasterize with `sharp` or `@resvg/resvg-js` instead.

@@ -1,0 +1,13 @@
+packages:
+  - "packages/*"
+  - "apps/*"
+allowBuilds:
+  "@parcel/watcher": false
+  esbuild: true
+  unrs-resolver: false
+# Remove this exclusion once @biomejs/* 2.6.x is older than the release-age window.
+minimumReleaseAgeExclude:
+  - "@biomejs/*"
+# Hoisted node_modules: Expo / Metro and React Native tooling expect a flat layout.
+# Also set in .npmrc (node-linker=hoisted) for older tools that do not read this file.
+nodeLinker: hoisted

@@ -96,6 +96,11 @@ describe("Wobbly (react-native)", () => {
     expect(host?.props.accessibilityLabel).toBe("ana");
   });
 
+  it('labels an empty name "Avatar"', async () => {
+    await render(<Wobbly name="" />);
+    expect(hostNodes("RNSVGSvgView")[0]?.props.accessibilityLabel).toBe("Avatar");
+  });
+
   it("uses title, and accessibilityLabel overrides it", async () => {
     await render(<Wobbly name="ana" title="Ana L." />);
     expect(hostNodes("RNSVGSvgView")[0]?.props.accessibilityLabel).toBe("Ana L.");

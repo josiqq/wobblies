@@ -13,7 +13,7 @@ export type WobblyProps = Omit<AvatarOptions, "animated" | "size"> & {
   size?: number;
   /** Style applied to the root `Svg` view. */
   style?: StyleProp<ViewStyle>;
-  /** Screen-reader label. Defaults to `title ?? name`. Ignored when `decorative` is set. */
+  /** Screen-reader label. Defaults to `title ?? name`, or `"Avatar"` for an empty name. Ignored when `decorative` is set. */
   accessibilityLabel?: string;
   /** Hide the avatar from assistive technology (e.g. next to the person's visible name). */
   decorative?: boolean;
@@ -78,7 +78,7 @@ function WobblyImpl({
     : {
         accessible: true,
         accessibilityRole: "image" as const,
-        accessibilityLabel: accessibilityLabel ?? title ?? String(name ?? ""),
+        accessibilityLabel: accessibilityLabel ?? title ?? (String(name ?? "") || "Avatar"),
       };
 
   return createElement(

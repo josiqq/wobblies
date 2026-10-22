@@ -79,7 +79,7 @@ export const Wobbly = forwardRef<SVGSVGElement, WobblyProps>(function Wobbly(
   const { role: _role, "aria-label": _label, ...restNoA11y } = rest;
   const a11yProps = decorative
     ? { ...restNoA11y, "aria-hidden": true as const }
-    : { role: "img", "aria-label": title ?? String(name ?? ""), ...rest };
+    : { role: "img", "aria-label": title ?? (String(name ?? "") || "Avatar"), ...rest };
 
   return createElement(
     "svg",

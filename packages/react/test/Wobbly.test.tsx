@@ -32,6 +32,17 @@ describe("Wobbly", () => {
     expect(svg?.getAttribute("aria-label")).toBe("ana");
   });
 
+  it('labels an empty or missing name "Avatar"', () => {
+    const { container } = render(
+      <>
+        <Wobbly name="" />
+        <Wobbly name={undefined as unknown as string} />
+      </>,
+    );
+    const labels = [...container.querySelectorAll("svg")].map((s) => s.getAttribute("aria-label"));
+    expect(labels).toEqual(["Avatar", "Avatar"]);
+  });
+
   it("uses title for label and a <title> child", () => {
     const { container } = render(<Wobbly name="ana" title="Ana López" />);
     const svg = container.querySelector("svg");

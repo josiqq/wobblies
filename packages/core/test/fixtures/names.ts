@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import type { AvatarOptions } from "../../src/index";
 
 const HAND_PICKED: string[] = [
   "",
@@ -55,6 +56,22 @@ export const SNAPSHOT_NAMES: readonly string[] = [
   "🦊 fox",
   ...Array.from({ length: 8 }, (_, i) => `user${i}`),
 ];
+
+/** Names for the option-matrix fixture (a cross-section of the corpus). */
+export const OPTION_NAMES: readonly string[] = ["", "ana", "José", "李小龙", "🦊 fox", "user0"];
+
+/** Option sets frozen by the option-matrix fixture, one per non-default output path. */
+export const OPTION_MATRIX: readonly AvatarOptions[] = [
+  { animated: true },
+  { size: 64 },
+  { title: "Ana" },
+  { traits: { shape: "sun", hue: 0.3 } },
+  { palette: { bg: "#ffffff" } },
+];
+
+/** Option-matrix key: name, "|", then the options as JSON (neither part contains "|"). */
+export const optionsKey = (name: string, options: AvatarOptions): string =>
+  `${name}|${JSON.stringify(options)}`;
 
 export const MOOD_LIST = ["idle", "happy", "sad", "mad"] as const;
 export const BACKGROUND_LIST = ["circle", "squircle", "square", "none"] as const;

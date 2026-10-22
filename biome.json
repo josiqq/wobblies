@@ -13,6 +13,7 @@
       "!**/stability.json",
       "!**/__snapshots__",
       "!.superpowers",
+      "!assets/gallery.svg",
       "!docs/superpowers",
       "!pnpm-lock.yaml"
     ]

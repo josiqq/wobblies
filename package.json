@@ -23,6 +23,7 @@
     "@biomejs/biome": "^2.6.0",
     "@changesets/changelog-github": "^1.0.0",
     "@changesets/cli": "^3.0.0",
+    "@wobblies/core": "workspace:*",
     "tsx": "^4.23.0",
     "turbo": "^2.11.0",
     "typescript": "~6.0.3"

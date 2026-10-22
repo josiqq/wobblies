@@ -17,7 +17,7 @@ export interface AvatarOptions {
   background?: Background;
   /** `width`/`height` attributes in pixels. Omitted (or not a positive finite number) → fluid SVG. */
   size?: number;
-  /** Accessible `<title>` text; escaped. */
+  /** Accessible `<title>` text. Escaped in the SVG string. */
   title?: string;
   /** Adds CSS class hooks for the blink / breathe / look animations (see `ANIMATIONS_CSS`). */
   animated?: boolean;
@@ -35,7 +35,7 @@ export interface Avatar {
   nodes: SvgNode[];
   /** Attributes of the root `<svg>` element (`xmlns`, `viewBox`, optional `width`/`height`/`class`). */
   rootAttrs: Record<string, string>;
-  /** The colours used, as hex strings (after overrides). */
+  /** The colours used, as CSS colour strings; overrides are passed through unvalidated. */
   palette: Palette;
   /** The body shape used. */
   shape: Shape;

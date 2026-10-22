@@ -5,6 +5,8 @@
       "**",
       "!**/dist",
       "!**/etc",
+      "!**/temp",
+      "!**/.turbo",
       "!**/.astro",
       "!apps/expo-example/.expo",
       "!**/stability.json",

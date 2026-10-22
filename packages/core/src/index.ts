@@ -1,3 +1,7 @@
+/**
+ * Deterministic default avatars as SVG. Zero dependencies; never touches the DOM.
+ * @packageDocumentation
+ */
 export { ANIMATIONS_CSS } from "./animations";
 export {
   type Avatar,

@@ -16,11 +16,30 @@ const ATTR_ESCAPES: Record<string, string> = {
   '"': "&quot;",
 };
 
-/** Escapes `& < > "` for use inside a double-quoted attribute value. */
-export const escapeAttr = (s: string): string => s.replace(/[&<>"]/g, (c) => ATTR_ESCAPES[c]);
+/**
+ * Characters that are not allowed anywhere in an XML 1.0 document: C0 controls other than
+ * tab, line feed and carriage return; U+FFFE / U+FFFF; and lone (unpaired) surrogates, which the
+ * `u` flag exposes as `\p{Cs}` code points (a valid surrogate pair is one non-`Cs` code point).
+ */
+// biome-ignore lint/suspicious/noControlCharactersInRegex: matching control characters is the point.
+const XML_INVALID = /[\0-\x08\v\f\x0E-\x1F\uFFFE\uFFFF]|\p{Cs}/gu;
 
-/** Escapes `& < >` for use as element text content. */
-export const escapeText = (s: string): string => s.replace(/[&<>]/g, (c) => ATTR_ESCAPES[c]);
+/** Replaces XML-invalid characters with U+FFFD so the SVG stays well-formed (and encodable). */
+const sanitize = (s: string): string => s.replace(XML_INVALID, "\uFFFD");
+
+/**
+ * Escapes `& < > "` for use inside a double-quoted attribute value. XML-invalid characters
+ * (lone surrogates, most C0 controls, U+FFFE/U+FFFF) become U+FFFD.
+ */
+export const escapeAttr = (s: string): string =>
+  sanitize(s).replace(/[&<>"]/g, (c) => ATTR_ESCAPES[c]);
+
+/**
+ * Escapes `& < >` for use as element text content. XML-invalid characters (lone surrogates,
+ * most C0 controls, U+FFFE/U+FFFF) become U+FFFD.
+ */
+export const escapeText = (s: string): string =>
+  sanitize(s).replace(/[&<>]/g, (c) => ATTR_ESCAPES[c]);
 
 function attrsToString(attrs: Record<string, string>): string {
   let out = "";

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createAvatar } from "../src/index";
+import { createAvatar, toDataUri } from "../src/index";
 
 describe("robustness (Review Focus)", () => {
   it("1: treats undefined / null / numbers as String(name ?? '')", () => {
@@ -19,6 +19,28 @@ describe("robustness (Review Focus)", () => {
     const { svg } = createAvatar("ana", { title: '<b>&"' });
     expect(svg).toContain('<title>&lt;b&gt;&amp;"</title>');
     expect(svg).not.toContain("<b>");
+  });
+
+  it("2: replaces a lone surrogate in a title with U+FFFD", () => {
+    const title = "Ana 😀".slice(0, 5); // cuts the emoji in half → lone high surrogate
+    const { svg } = createAvatar("a", { title });
+    expect(() => toDataUri(svg)).not.toThrow();
+    expect(svg).toContain("<title>Ana \uFFFD</title>");
+  });
+
+  it("2: replaces XML-invalid controls and keeps tab / LF / CR", () => {
+    const { svg } = createAvatar("a", {
+      title: "\u0001x\t\n\r\uFFFE",
+      palette: { bg: "\u0000red" },
+    });
+    expect(svg).not.toContain("\u0001");
+    expect(svg).not.toContain("\u0000");
+    expect(svg).toContain("<title>\uFFFDx\t\n\r\uFFFD</title>");
+    expect(svg).toContain('fill="\uFFFDred"');
+  });
+
+  it("2: keeps valid surrogate pairs intact", () => {
+    expect(createAvatar("a", { title: "🦊" }).svg).toContain("<title>🦊</title>");
   });
 
   it("2: ignores undefined palette entries", () => {

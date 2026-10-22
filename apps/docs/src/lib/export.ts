@@ -66,10 +66,22 @@ function gridSize({ names, cols, cell, gap }: GridOptions) {
   return { width: cols * cell + gap * (cols + 1), height: rows * cell + gap * (rows + 1) };
 }
 
+const ATTR_ESCAPES: Record<string, string> = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+};
+
+/** Escapes a user-supplied string for a double-quoted XML attribute value. */
+const escapeAttr = (s: string): string => s.replace(/[&<>"]/g, (c) => ATTR_ESCAPES[c] ?? c);
+
 /** Lays the avatars out on a single SVG sheet. */
 export function gridToSvg(grid: GridOptions, options: AvatarOptions = {}): string {
   const { width, height } = gridSize(grid);
-  const bg = grid.background ? `<rect width="100%" height="100%" fill="${grid.background}"/>` : "";
+  const bg = grid.background
+    ? `<rect width="100%" height="100%" fill="${escapeAttr(grid.background)}"/>`
+    : "";
   const cells = grid.names
     .map((name, i) => {
       const x = grid.gap + (i % grid.cols) * (grid.cell + grid.gap);

@@ -2,7 +2,9 @@ packages:
   - "packages/*"
   - "apps/*"
 allowBuilds:
+  "@parcel/watcher": false
   esbuild: true
+  unrs-resolver: false
 minimumReleaseAgeExclude:
   - "@biomejs/*"
 nodeLinker: hoisted

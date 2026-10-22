@@ -1,0 +1,87 @@
+{
+  "name": "@wobblies/react-native",
+  "version": "0.0.0",
+  "description": "React Native component for Wobblies — friendly, deterministic default avatars.",
+  "keywords": [
+    "avatar",
+    "default-avatar",
+    "identicon",
+    "svg",
+    "generator",
+    "deterministic",
+    "react",
+    "react-native",
+    "expo",
+    "react-native-svg"
+  ],
+  "license": "MIT",
+  "author": "josiqq",
+  "homepage": "https://josiqq.github.io/wobblies",
+  "bugs": "https://github.com/josiqq/wobblies/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/josiqq/wobblies.git",
+    "directory": "packages/react-native"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "react-native": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "jest",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "check:exports": "publint && attw --pack .",
+    "api:check": "api-extractor run",
+    "api:update": "api-extractor run --local"
+  },
+  "dependencies": {
+    "@wobblies/core": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-native": ">=0.72",
+    "react-native-svg": ">=13"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@microsoft/api-extractor": "^7.59.4",
+    "@testing-library/react-native": "^14.0.0",
+    "@types/jest": "^30.0.0",
+    "@types/react": "~19.3.0",
+    "expo": "~58.0.16",
+    "jest": "^30.0.0",
+    "jest-expo": "~58.0.11",
+    "publint": "^0.3.25",
+    "react": "19.3.0",
+    "react-native": "0.88.0",
+    "react-native-svg": "15.16.0",
+    "test-renderer": "^1.0.0",
+    "tsup": "^9.0.0"
+  }
+}
